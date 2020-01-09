@@ -2,21 +2,19 @@ package nl.robinlaugs.algorithm.decoding;
 
 import nl.robinlaugs.library.Message;
 import nl.robinlaugs.library.Node;
-import nl.robinlaugs.statistics.Statistics;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class DecodingController implements Decoding {
 
-    private final Statistics statistics;
-
-    public DecodingController(Statistics statistics) {
-        this.statistics = statistics;
-    }
+    private static final Logger logger = Logger.getLogger(DecodingController.class.getName());
 
     @Override
     public String decode(Message message) {
         String decodedMessage = decodeMessage(message.getMessage(), message.getTrie());
 
-        statistics.addStatistic(String.format("Decoded: %s", decodedMessage));
+        logger.log(Level.INFO, "Decoded: {0}", decodedMessage);
 
         return decodedMessage;
     }

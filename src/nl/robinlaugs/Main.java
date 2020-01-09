@@ -1,23 +1,24 @@
 package nl.robinlaugs;
 
 import nl.robinlaugs.library.Message;
-import nl.robinlaugs.statistics.StatisticsListener;
 
-public class Main implements StatisticsListener {
+import java.util.Scanner;
 
-    private static final String MESSAGE = "huffman coding implementation by robin laugs";
+public class Main {
+
+    private static final String PROMPT = "Enter a message to encode and decode: ";
 
     public static void main(String[] args) {
-        Huffman huffman = new HuffmanController(new Main());
+        Huffman huffman = new HuffmanController();
 
-        Message encodedMessage = huffman.encode(MESSAGE);
+        System.out.print(PROMPT);
+
+        Scanner scanner = new Scanner(System.in);
+        String message = scanner.nextLine();
+
+        Message encodedMessage = huffman.encode(message);
 
         huffman.decode(encodedMessage);
-    }
-
-    @Override
-    public void onStatisticReceived(String statistic) {
-        System.out.println(statistic);
     }
 
 }

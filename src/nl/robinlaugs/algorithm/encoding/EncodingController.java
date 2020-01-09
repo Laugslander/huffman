@@ -2,12 +2,13 @@ package nl.robinlaugs.algorithm.encoding;
 
 import nl.robinlaugs.library.Message;
 import nl.robinlaugs.library.Node;
-import nl.robinlaugs.statistics.Statistics;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import static java.lang.Long.sum;
 import static java.util.function.Function.identity;
@@ -15,14 +16,10 @@ import static java.util.stream.Collectors.*;
 
 public class EncodingController implements Encoding {
 
+    private static final Logger logger = Logger.getLogger(EncodingController.class.getName());
+
     private static final char BINARY_ONE = '1';
     private static final char BINARY_ZERO = '0';
-
-    private final Statistics statistics;
-
-    public EncodingController(Statistics statistics) {
-        this.statistics = statistics;
-    }
 
     @Override
     public Message encode(String message) {
@@ -32,8 +29,8 @@ public class EncodingController implements Encoding {
         Map<Character, String> codeMap = buildCodeMap(trie, new HashMap<>(), new StringBuilder());
         String encodedMessage = encodeMessage(codeMap, message);
 
-        statistics.addStatistic(String.format("Message: %s", message));
-        statistics.addStatistic(String.format("Encoded: %s", encodedMessage));
+        logger.log(Level.INFO, "Message: {0}", message);
+        logger.log(Level.INFO, "Encoded: {0}", encodedMessage);
 
         return new Message(encodedMessage, trie);
     }
