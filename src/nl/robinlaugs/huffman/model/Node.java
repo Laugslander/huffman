@@ -1,7 +1,6 @@
-package nl.robinlaugs.library;
+package nl.robinlaugs.huffman.model;
 
-import static java.lang.Character.compare;
-import static java.lang.Long.compare;
+import static java.util.Comparator.comparing;
 
 public class Node implements Comparable<Node> {
 
@@ -22,14 +21,17 @@ public class Node implements Comparable<Node> {
 
     @Override
     public int compareTo(Node node) {
-        int frequencyResult = compare(frequency, node.getFrequency());
-        int characterResult = compare(character, node.getCharacter());
-
-        return frequencyResult == 0 ? characterResult : frequencyResult;
+        return comparing(Node::getFrequency)
+                .thenComparing(Node::getCharacter)
+                .compare(this, node);
     }
 
     public boolean isInternal() {
-        return character == Character.MIN_VALUE;
+        return character == '\u0000';
+    }
+
+    public Node getNode(char character) {
+        return character == '1' ? right : left;
     }
 
     public Long getFrequency() {
